@@ -65,13 +65,19 @@ function setCursorPositions(e){
 }
 
 function drawLine(){
-	
+	ctx.beginPath();
+    ctx.moveTo(previousPosition.x, previousPosition.y);
+    ctx.lineTo(currentPosition.x, currentPosition.y);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = lineWidth;
+    ctx.stroke();
+    ctx.closePath();
 }
 
 function drawPoint(){
 	ctx.beginPath();
     ctx.fillStyle = color;
-    ctx.fillRect(currentPosition.x, currentPosition.y, 2, 2);
+    ctx.fillRect(currentPosition.x, currentPosition.y, lineWidth, lineWidth);
     ctx.closePath();
 }
 
@@ -94,5 +100,8 @@ function leave(){
 }
 
 function move(e){
-	setCursorPositions(e);
+	if(isWriting && isInside){
+		setCursorPositions(e);
+		drawLine();
+	}
 }
