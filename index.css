@@ -1,0 +1,21 @@
+canvas{
+	border : 2px solid black;
+}
+
+.erasers-container{
+	position : absolute;
+	
+	bottom : 0px;
+	right : 0px;
+}
+
+.marker-container{
+	position : absolute;
+	
+	bottom : 0px;
+	left : 0px;
+}
+
+.marker-container *{
+	float : left;
+}
