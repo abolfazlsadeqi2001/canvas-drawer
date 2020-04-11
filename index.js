@@ -8,9 +8,8 @@ var canvasDimensions = {width:930,height:420};
 var markerSize = 28;
 
 var isWriting = false;
-var isInside = false;
 
-var lineWidth;
+var lineWidth = 2;
 var color = "black";
 var pencilWidth = 2;
 var eraserWidth;
@@ -36,6 +35,9 @@ function init(){
 	var eraserInput = document.querySelector("[type='number']");
 	eraserInput.addEventListener("change",e=>{
 		eraserWidth = eraserInput.value;
+		if(color == "white"){
+			lineWidth = eraserWidth;
+		}
 	});
 	
 	var eraserButton = document.querySelector("#eraser");
@@ -45,14 +47,13 @@ function init(){
 	});
 	
 	var clearButton = document.querySelector("#clear");
-	clearButton.addEventListener("clear",e=>{
-		canvas.clearRect(0,0,canvasDimensions.width,canvasDimensions.height);
+	clearButton.addEventListener("click",e=>{
+		ctx.clearRect(0,0,canvasDimensions.width,canvasDimensions.height);
 	});
 	// handle canvas events
 	canvas.addEventListener("mousedown",down);
 	canvas.addEventListener("mouseup",up);
-	canvas.addEventListener("mouseenter",enter);
-	canvas.addEventListener("mouseleave",leave);
+	canvas.addEventListener("mouseleave",up);
 	canvas.addEventListener("mousemove",move);
 }
 
@@ -91,16 +92,8 @@ function up(){
 	isWriting = false;
 }
 
-function enter(){
-	isInside = true;
-}
-
-function leave(){
-	isInside = false;
-}
-
 function move(e){
-	if(isWriting && isInside){
+	if(isWriting){
 		setCursorPositions(e);
 		drawLine();
 	}
