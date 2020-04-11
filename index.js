@@ -3,7 +3,7 @@ var currentPosition = {x:0,y:0};
 
 var canvas;
 var ctx;
-var canvasDimensions = {width:930,height:420};
+var canvasDimensions = {width:1870,height:1040};
 
 var markerSize = 28;
 
