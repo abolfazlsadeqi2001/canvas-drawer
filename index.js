@@ -11,7 +11,7 @@ var isWriting = false;
 var isInside = false;
 
 var lineWidth;
-var color;
+var color = "black";
 var pencilWidth = 2;
 var eraserWidth;
 
@@ -56,7 +56,7 @@ function init(){
 	canvas.addEventListener("mousemove",move);
 }
 
-function setCursorPositions(){
+function setCursorPositions(e){
 	previousPosition.x = currentPosition.x;
 	previousPosition.y = currentPosition.y;
 	
@@ -64,9 +64,21 @@ function setCursorPositions(){
 	currentPosition.y = e.clientY - canvas.offsetTop;
 }
 
+function drawLine(){
+	
+}
+
+function drawPoint(){
+	ctx.beginPath();
+    ctx.fillStyle = color;
+    ctx.fillRect(currentPosition.x, currentPosition.y, 2, 2);
+    ctx.closePath();
+}
+
 function down(e){
 	isWriting = true;
-	setCursorPositions();
+	setCursorPositions(e);
+	drawPoint();
 }
 
 function up(){
@@ -81,6 +93,6 @@ function leave(){
 	isInside = false;
 }
 
-function move(){
-	setCursorPositions();
+function move(e){
+	setCursorPositions(e);
 }
