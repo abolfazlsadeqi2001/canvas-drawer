@@ -9,9 +9,16 @@ var isWriting = false;
 
 var lineWidth;
 var color;
+
 var pencilWidth = 2;
 var eraserInput;
 
 function init(){
-	
+	// configure the canvas
+	canvas = document.querySelector("canvas");
+	ctx = canvas.getContext("2d");
+	canvas.width = canvasDimensions.width;
+	canvas.height = canvasDimensions.height;
+	// configure markers
+	var containerOfMarkers = document.querySelector(".marker-container");
 }
