@@ -50,3 +50,23 @@ function init(){
 	canvas.addEventListener("mouseleave",leave);
 	canvas.addEventListener("mousemove",move);
 }
+
+function down(e){
+	isWriting = true;
+}
+
+function up(){
+	isWriting = false;
+}
+
+function enter(){
+	isInside = true;
+}
+
+function leave(){
+	isInside = false;
+}
+
+function move(){
+	console.log("move");
+}
