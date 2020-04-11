@@ -8,6 +8,7 @@ var canvasDimensions = {width:930,height:420};
 var markerSize = 28;
 
 var isWriting = false;
+var isInside = false;
 
 var lineWidth;
 var color;
@@ -42,4 +43,10 @@ function init(){
 		color = "white";
 		lineWidth = eraserWidth;
 	});
+	// handle canvas events
+	canvas.addEventListener("mousedown",down);
+	canvas.addEventListener("mouseup",up);
+	canvas.addEventListener("mouseenter",enter);
+	canvas.addEventListener("mouseleave",leave);
+	canvas.addEventListener("mousemove",move);
 }
