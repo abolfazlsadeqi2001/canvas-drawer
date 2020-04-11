@@ -56,8 +56,17 @@ function init(){
 	canvas.addEventListener("mousemove",move);
 }
 
+function setCursorPositions(){
+	previousPosition.x = currentPosition.x;
+	previousPosition.y = currentPosition.y;
+	
+	currentPosition.x = e.clientX - canvas.offsetLeft;
+	currentPosition.y = e.clientY - canvas.offsetTop;
+}
+
 function down(e){
 	isWriting = true;
+	setCursorPositions();
 }
 
 function up(){
@@ -73,5 +82,5 @@ function leave(){
 }
 
 function move(){
-	console.log("move");
+	setCursorPositions();
 }
