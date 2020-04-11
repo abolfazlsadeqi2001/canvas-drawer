@@ -43,6 +43,11 @@ function init(){
 		color = "white";
 		lineWidth = eraserWidth;
 	});
+	
+	var clearButton = document.querySelector("#clear");
+	clearButton.addEventListener("clear",e=>{
+		canvas.clearRect(0,0,canvasDimensions.width,canvasDimensions.height);
+	});
 	// handle canvas events
 	canvas.addEventListener("mousedown",down);
 	canvas.addEventListener("mouseup",up);
