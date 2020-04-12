@@ -21,7 +21,7 @@ setInterval(function(){
 		}
 	}
 },100);
-// get the point and convert it to array of object
+// get the points as msg and convert them to array of objects
 ws.onmessage = function(msg){
 	var data = msg.data;
 	while(data.indexOf("},{") != -1){
@@ -33,7 +33,6 @@ ws.onmessage = function(msg){
 			points.push(JSON.parse(element))
 		}
 	})
-	console.log(points.length)
 }
 // handle events based on their type
 function eventsHandler(obj){

@@ -98,7 +98,6 @@ function init(){
 	// interval for ws
 	setInterval(function(){
 		ws.send(String(points));
-		console.log(points.length)
 		points = [];
 	},5000)
 }
