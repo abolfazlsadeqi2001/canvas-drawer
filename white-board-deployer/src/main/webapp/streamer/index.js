@@ -12,6 +12,9 @@ var color = "black";
 var pencilWidth = 2;
 var eraserWidth = 10;
 
+var currentTime = 0;
+var points = [];
+//==> configure functions
 function configureCanvas(){
 	canvas = document.querySelector("canvas");
 	ctx = canvas.getContext("2d");
@@ -35,6 +38,11 @@ function configureCanvas(){
 	canvas.addEventListener("touchstart",down);
 	canvas.addEventListener("touchmove",move);
 	canvas.addEventListener("touchend",up);
+	// push
+	push({
+		type : "canvas",
+		dimensions : canvasDimensions
+	});
 }
 
 function configureMarkers(){
@@ -70,17 +78,30 @@ function configureEraser(){
 function configureClearButton(){
 	var clearButton = document.querySelector("#clear");
 	clearButton.addEventListener("click",e=>{
+		push({
+			type : "clear"
+		});
 		ctx.clearRect(0,0,canvasDimensions.width,canvasDimensions.height);
 	});
 }
-
+// call in startup
 function init(){
 	configureCanvas();
 	configureMarkers();
 	configureEraser();
 	configureClearButton();
+	// interval for currentTime
+	setInterval(function(){
+		currentTime += 100;
+	},100)
 }
-
+// ==> push method
+function push(obj){
+	obj.currentTime = currentTime;
+	points.push(JSON.stringify(obj));
+	console.log(String(points))
+}
+// ==> handle canvas events
 function setCursorPositions(e){
 	previousPosition.x = currentPosition.x;
 	previousPosition.y = currentPosition.y;
@@ -91,23 +112,6 @@ function setCursorPositions(e){
 		currentPosition.x = e.changedTouches[0].pageX - canvas.offsetLeft;
 		currentPosition.y = e.changedTouches[0].pageY - canvas.offsetTop;
 	}
-}
-
-function drawLine(){
-	ctx.beginPath();
-    ctx.moveTo(previousPosition.x, previousPosition.y);
-    ctx.lineTo(currentPosition.x, currentPosition.y);
-    ctx.strokeStyle = color;
-    ctx.lineWidth = lineWidth;
-    ctx.stroke();
-    ctx.closePath();
-}
-
-function drawPoint(){
-	ctx.beginPath();
-    ctx.fillStyle = color;
-    ctx.fillRect(currentPosition.x, currentPosition.y, lineWidth, lineWidth);
-    ctx.closePath();
 }
 
 function down(e){
@@ -125,4 +129,38 @@ function move(e){
 		setCursorPositions(e);
 		drawLine();
 	}
+}
+// ==> draws functions
+function drawLine(){
+	// draw
+	ctx.beginPath();
+    ctx.moveTo(previousPosition.x, previousPosition.y);
+    ctx.lineTo(currentPosition.x, currentPosition.y);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = lineWidth;
+    ctx.stroke();
+    ctx.closePath();
+    // push
+    push({
+    	type : "line",
+    	previousPoint : previousPosition,
+    	currentPoint : currentPosition,
+    	color : color,
+    	lineWidth : lineWidth
+    });
+}
+
+function drawPoint(){
+	// draw
+	ctx.beginPath();
+    ctx.fillStyle = color;
+    ctx.fillRect(currentPosition.x, currentPosition.y, lineWidth, lineWidth);
+    ctx.closePath();
+    // push
+    push({
+    	type : "point",
+    	currentPoint : currentPosition,
+    	lineWidth : lineWidth,
+    	color : color
+    });
 }
