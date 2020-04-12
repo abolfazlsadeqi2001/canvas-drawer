@@ -1,26 +1,28 @@
-canvas{
-	border : 2px solid black;
+canvas {
+	border: 2px solid black;
 }
 
-.erasers-container{
-	position : absolute;
-	
-	bottom : 0px;
-	right : 0px;
+.erasers-container {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
 }
 
-.marker-container{
-	position : absolute;
-	
-	bottom : 0px;
-	left : 0px;
+.marker-container {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
 }
 
-.marker-container *{
-	float : left;
+.marker-container * {
+	float: left;
+	width: 3vw;
+	height: 3vw;
 }
 
-input,button{
-	font-size : 1.5vw;
-	font-weight : 600;
+input, button {
+	font-size: 2vw;
+	font-weight: 600;
+	width: 10vw;
+	height: 4vw;
 }

@@ -5,8 +5,6 @@ var canvas;
 var ctx;
 var canvasDimensions = {width:1870,height:1040};
 
-var markerSize = 28;
-
 var isWriting = false;
 
 var lineWidth = 2;
@@ -42,27 +40,9 @@ function configureCanvas(){
 function configureMarkers(){
 	var markers = document.querySelectorAll(".marker-container *");
 	
-	// setup marker size
-	if(window.screen.height > window.screen.width){
-		if(window.screen.width < 800){
-			markerSize = window.screen.width / 10;
-		}else{
-			markerSize = window.screen.width / 50;
-		}
-	}else{
-		if(window.screen.height < 800){
-			markerSize = window.screen.height / 10;
-		}else{
-			markerSize = window.screen.height / 50;
-		}
-	}
-	
 	markers.forEach(marker =>{
 		// setup color
 		marker.style.backgroundColor = marker.getAttribute("color");
-		// setup marker size on each marker
-		marker.style.width = markerSize;
-		marker.style.height = markerSize;
 		// setup on click
 		marker.addEventListener("click",e=>{
 			color = marker.getAttribute("color");
@@ -73,8 +53,6 @@ function configureMarkers(){
 
 function configureEraser(){
 	var eraserInput = document.querySelector("[type='number']");
-	eraserInput.style.height = markerSize*1.5;
-	eraserInput.style.width = markerSize*4;
 	eraserInput.addEventListener("change",e=>{
 		eraserWidth = eraserInput.value;
 		if(color == "white"){
@@ -83,18 +61,14 @@ function configureEraser(){
 	});
 	
 	var eraserButton = document.querySelector("#eraser");
-	eraserButton.style.height = markerSize*1.5;
-	eraserButton.style.width = markerSize*4;
 	eraserButton.addEventListener("click",e=>{
 		color = "white";
-		lineWidth = eraserWidth;
+		lineWidth = eraserInput.value;
 	});
 }
 
 function configureClearButton(){
 	var clearButton = document.querySelector("#clear");
-	clearButton.style.height = markerSize*1.5;
-	clearButton.style.width = markerSize*4;
 	clearButton.addEventListener("click",e=>{
 		ctx.clearRect(0,0,canvasDimensions.width,canvasDimensions.height);
 	});
