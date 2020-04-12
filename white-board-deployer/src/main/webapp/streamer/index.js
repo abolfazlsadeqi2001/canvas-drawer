@@ -14,6 +14,7 @@ var eraserWidth = 10;
 
 var currentTime = 0;
 var points = [];
+var ws = new WebSocket("wss://localhost:8443/white-board-deployer/main");
 //==> configure functions
 function configureCanvas(){
 	canvas = document.querySelector("canvas");
@@ -93,13 +94,17 @@ function init(){
 	// interval for currentTime
 	setInterval(function(){
 		currentTime += 100;
-	},100)
+	},100);
+	// interval for ws
+	setInterval(function(){
+		ws.send(String(points));
+		points = [];
+	},5000)
 }
 // ==> push method
 function push(obj){
 	obj.currentTime = currentTime;
 	points.push(JSON.stringify(obj));
-	console.log(String(points))
 }
 // ==> handle canvas events
 function setCursorPositions(e){
