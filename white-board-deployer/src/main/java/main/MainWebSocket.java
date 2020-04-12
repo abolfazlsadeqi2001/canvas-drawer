@@ -13,15 +13,19 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint("/main")
 public class MainWebSocket {
 	
-	Set<Session> sessions = new HashSet<Session>();
+	public static Set<Session> sessions = new HashSet<Session>();
 	
 	@OnOpen
 	public void onOpen(Session session) {
 		sessions.add(session);
+		
+		session.setMaxTextMessageBufferSize(1024*1024);
+		session.setMaxIdleTimeout(10 * 1000);
 	}
 	
 	@OnMessage
 	public void onMessage(Session session,String arr) {
+		System.out.println(sessions.size());
 		sessions.stream().filter(s -> !s.equals(session)).forEach(s->{
 			try {
 				s.getBasicRemote().sendText(arr);

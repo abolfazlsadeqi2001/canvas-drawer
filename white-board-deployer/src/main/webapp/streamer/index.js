@@ -137,6 +137,14 @@ function move(e){
 }
 // ==> draws functions
 function drawLine(){
+	// push
+    push({
+    	type : "line",
+    	previousPoint : previousPosition,
+    	currentPoint : currentPosition,
+    	color : color,
+    	lineWidth : lineWidth
+    });
 	// draw
 	ctx.beginPath();
     ctx.moveTo(previousPosition.x, previousPosition.y);
@@ -145,27 +153,19 @@ function drawLine(){
     ctx.lineWidth = lineWidth;
     ctx.stroke();
     ctx.closePath();
-    // push
-    push({
-    	type : "line",
-    	previousPoint : previousPosition,
-    	currentPoint : currentPosition,
-    	color : color,
-    	lineWidth : lineWidth
-    });
 }
 
 function drawPoint(){
-	// draw
-	ctx.beginPath();
-    ctx.fillStyle = color;
-    ctx.fillRect(currentPosition.x, currentPosition.y, lineWidth, lineWidth);
-    ctx.closePath();
-    // push
+	// push
     push({
     	type : "point",
     	currentPoint : currentPosition,
     	lineWidth : lineWidth,
     	color : color
     });
+	// draw
+	ctx.beginPath();
+    ctx.fillStyle = color;
+    ctx.fillRect(currentPosition.x, currentPosition.y, lineWidth, lineWidth);
+    ctx.closePath();
 }
