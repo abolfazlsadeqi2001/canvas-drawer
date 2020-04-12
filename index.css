@@ -19,3 +19,8 @@ canvas{
 .marker-container *{
 	float : left;
 }
+
+input,button{
+	font-size : 1.5vw;
+	font-weight : 600;
+}
