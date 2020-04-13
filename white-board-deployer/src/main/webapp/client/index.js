@@ -15,19 +15,21 @@ setInterval(function(){
 	for(var i=currentIndex; i<points.length;i++){
 		if(points[i].currentTime <= currentTime){
 			eventsHandler(points[i])
-		}else{
 			currentIndex = i;
+		}else{
 			break;
 		}
 	}
 },100);
 // get the points as msg and convert them to array of objects
 ws.onmessage = function(msg){
+	// read array
 	var data = msg.data;
 	while(data.indexOf("},{") != -1){
 		data = data.replace("},{","}#{");
 	}
 	var array = data.split("#")
+	// parse array stringified objects to object
 	array.forEach(element =>{
 		if(element != ""){
 			points.push(JSON.parse(element))
