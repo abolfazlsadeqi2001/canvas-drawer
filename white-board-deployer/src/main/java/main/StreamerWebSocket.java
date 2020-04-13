@@ -21,6 +21,8 @@ public class StreamerWebSocket extends WebSocketParent {
 
 	private static boolean isStreamerConnected;
 	
+	private static int streamerCurrentTime;
+	
 	public static String getCanvasObject() {
 		return canvasObject;
 	}
@@ -51,9 +53,10 @@ public class StreamerWebSocket extends WebSocketParent {
 		ClientWebSocket.broadcastMessage(message);
 		// read message
 		String stringifiedArray = message.replaceAll("\\},\\{", "}#{");
-		String[] array = stringifiedArray.split("#");
+		String[] stringifiedJsonArray = stringifiedArray.split("#");
 		// read objects
-		for (String stringifiedObject : array) {
+		for (int i=0; i<stringifiedJsonArray.length; i++) {
+			String stringifiedObject = stringifiedJsonArray[i];
 			if (!stringifiedObject.isBlank()) {
 				JSONObject object = new JSONObject(stringifiedObject);
 				// add current Object to objectsContainer set
