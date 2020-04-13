@@ -1,8 +1,12 @@
 var ws = new WebSocket("wss://localhost:8443/white-board-deployer/main");
+
+var streamTime = undefined;
 var currentTime = 0;
 var points = [];
+
 var canvas;
 var ctx;
+
 var currentIndex = 0;
 // call on load
 function init(){
@@ -13,7 +17,7 @@ function init(){
 setInterval(function(){
 	currentTime += 100;
 	for(var i=currentIndex; i<points.length;i++){
-		if(points[i].time <= currentTime){
+		if(points[i].time - streamTime <= currentTime){
 			eventsHandler(points[i])
 			currentIndex = i;
 		}else{
@@ -28,13 +32,17 @@ ws.onmessage = function(msg){
 	while(data.indexOf("},{") != -1){
 		data = data.replace("},{","}#{");
 	}
-	var array = data.split("#")
+	var array = data.split("#");
 	// parse array stringified objects to object
 	array.forEach(element =>{
 		if(element != ""){
 			points.push(JSON.parse(element))
 		}
-	})
+	});
+	// set streamTime
+	if(streamTime == undefined && points.length > 0){
+		streamTime = points[0].time;
+	}
 }
 // handle events based on their type
 function eventsHandler(obj){
