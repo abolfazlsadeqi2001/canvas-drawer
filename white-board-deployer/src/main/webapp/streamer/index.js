@@ -14,7 +14,7 @@ var eraserWidth = 10;
 
 var currentTime = 0;
 var points = [];
-var ws = new WebSocket("wss://localhost:8443/white-board-deployer/main");
+var ws = new WebSocket("wss://localhost:8443/white-board-deployer/streamer");
 // ==> configure functions
 function configureCanvas(){
 	canvas = document.querySelector("canvas");

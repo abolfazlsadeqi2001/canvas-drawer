@@ -1,4 +1,4 @@
-var ws = new WebSocket("wss://localhost:8443/white-board-deployer/main");
+var ws = new WebSocket("wss://localhost:8443/white-board-deployer/client");
 
 var streamTime = undefined;
 var currentTime = 0;
