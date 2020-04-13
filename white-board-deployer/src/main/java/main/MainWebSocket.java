@@ -14,8 +14,8 @@ import javax.websocket.server.ServerEndpoint;
 public class MainWebSocket {
 	
 	public static Set<Session> sessions = new HashSet<Session>();
-	private static final int MAX_TEXT_MESSAGE_SIZE = 1024*1024*4;
-	private static final int TIME_OUT_PER_MILI_SECONDS = 10 * 1000;
+	private static final int MAX_TEXT_MESSAGE_SIZE = 40 * 1024;// max gained text message is 35 kB
+	private static final int TIME_OUT_PER_MILI_SECONDS = 10 * 1000;// sync time is 5
 	
 	@OnOpen
 	public void onOpen(Session session) {
