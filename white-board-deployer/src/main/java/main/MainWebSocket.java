@@ -14,18 +14,19 @@ import javax.websocket.server.ServerEndpoint;
 public class MainWebSocket {
 	
 	public static Set<Session> sessions = new HashSet<Session>();
+	private static final int MAX_TEXT_MESSAGE_SIZE = 1024*1024*4;
+	private static final int TIME_OUT_PER_MILI_SECONDS = 10 * 1000;
 	
 	@OnOpen
 	public void onOpen(Session session) {
 		sessions.add(session);
 		
-		session.setMaxTextMessageBufferSize(1024*1024);
-		session.setMaxIdleTimeout(10 * 1000);
+		session.setMaxTextMessageBufferSize(MAX_TEXT_MESSAGE_SIZE);
+		session.setMaxIdleTimeout(TIME_OUT_PER_MILI_SECONDS);
 	}
 	
 	@OnMessage
 	public void onMessage(Session session,String arr) {
-		System.out.println(sessions.size());
 		sessions.stream().filter(s -> !s.equals(session)).forEach(s->{
 			try {
 				s.getBasicRemote().sendText(arr);
