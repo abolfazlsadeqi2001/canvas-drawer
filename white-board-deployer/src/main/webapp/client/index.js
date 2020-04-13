@@ -24,13 +24,15 @@ ws.onmessage = function(msg){
 	// parse array stringified objects to object
 	array.forEach(element =>{
 		if(element != ""){
-			points.push(JSON.parse(element))
+			var elementObj = JSON.parse(element);
+			// set streamTime
+			if(streamTime == undefined && elementObj.type != "canvas"){
+				streamTime = Number(elementObj.time);
+			}
+			// push parsed object to points
+			points.push(elementObj);
 		}
 	});
-	// set streamTime
-	if(streamTime == undefined && points.length > 0){
-		streamTime = points[0].time;
-	}
 }
 //an interval for writing points based on time
 setInterval(function(){
