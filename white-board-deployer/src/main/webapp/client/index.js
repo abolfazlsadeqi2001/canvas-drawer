@@ -13,18 +13,6 @@ function init(){
 	canvas = document.querySelector("canvas");
 	ctx = canvas.getContext("2d");
 }
-// an interval for writing points based on time
-setInterval(function(){
-	currentTime += 100;
-	for(var i=currentIndex; i<points.length;i++){
-		if(points[i].time - streamTime <= currentTime){
-			eventsHandler(points[i])
-			currentIndex = i;
-		}else{
-			break;
-		}
-	}
-},100);
 // get the points as msg and convert them to array of objects
 ws.onmessage = function(msg){
 	// read array
@@ -44,6 +32,18 @@ ws.onmessage = function(msg){
 		streamTime = points[0].time;
 	}
 }
+//an interval for writing points based on time
+setInterval(function(){
+	currentTime += 100;
+	for(var i=currentIndex; i<points.length;i++){
+		if(points[i].time - streamTime <= currentTime){
+			eventsHandler(points[i])
+			currentIndex = i;
+		}else{
+			break;
+		}
+	}
+},100);
 // handle events based on their type
 function eventsHandler(obj){
 	if(obj.type == "canvas"){
