@@ -1,5 +1,4 @@
 var ws = new WebSocket("wss://localhost:8443/white-board-deployer/client");
-
 var streamTime = undefined;
 var currentTime = 0;
 var points = [];
@@ -15,25 +14,24 @@ function init(){
 }
 // get the points as msg and convert them to array of objects
 ws.onmessage = function(msg){
-	// read array
 	var data = msg.data;
-	while(data.indexOf("},{") != -1){
-		data = data.replace("},{","}#{");
-	}
-	var array = data.split("#");
-	// parse array stringified objects to object
-	array.forEach(element =>{
-		if(element != ""){
-			console.log(element)
-			var elementObj = JSON.parse(element);
-			// set streamTime
-			if(streamTime == undefined && elementObj.type != "canvas"){
-				streamTime = Number(elementObj.time);
-			}
-			// push parsed object to points
-			points.push(elementObj);
+	if(data.charAt(0) == "#"){// if it is a streamer current timer indicator
+		streamTime = Number(data.replace("#",""));
+	}else{// if it is a canvas data object
+		// read array of points object
+		while(data.indexOf("},{") != -1){
+			data = data.replace("},{","}#{");
 		}
-	});
+		var array = data.split("#");
+		// parse array stringified objects to object
+		array.forEach(element =>{
+			if(element != ""){
+				var elementObj = JSON.parse(element);
+				// push parsed object to points
+				points.push(elementObj);
+			}
+		});
+	}
 }
 //an interval for writing points based on time
 setInterval(function(){

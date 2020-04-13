@@ -30,6 +30,8 @@ public class ClientWebSocket extends WebSocketParent {
 			}
 			// send all objects
 			session.getBasicRemote().sendText(StreamerWebSocket.getPointsObjects());
+			// send the last sent streamer time
+			session.getBasicRemote().sendText("#"+StreamerWebSocket.getStreamerCurrentTime());
 		} catch (IOException e) {
 			System.out.println("ERROR:"+e.getMessage());
 		}
