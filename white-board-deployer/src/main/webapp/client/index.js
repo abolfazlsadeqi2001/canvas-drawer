@@ -24,6 +24,7 @@ ws.onmessage = function(msg){
 	// parse array stringified objects to object
 	array.forEach(element =>{
 		if(element != ""){
+			console.log(element)
 			var elementObj = JSON.parse(element);
 			// set streamTime
 			if(streamTime == undefined && elementObj.type != "canvas"){
@@ -38,7 +39,7 @@ ws.onmessage = function(msg){
 setInterval(function(){
 	currentTime += 100;
 	for(var i=currentIndex; i<points.length;i++){
-		if(points[i].time - streamTime <= currentTime){
+		if(points[i].time <= currentTime + streamTime){
 			eventsHandler(points[i])
 			currentIndex = i;
 		}else{
@@ -62,6 +63,7 @@ function eventsHandler(obj){
 function handleCanvas(obj){
 	canvas.width = obj.dimensions.width;
 	canvas.height = obj.dimensions.height;
+	handleClear();
 }
 // handle clear event to clear the canvas
 function handleClear(){

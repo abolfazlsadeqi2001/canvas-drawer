@@ -25,7 +25,7 @@ public class MainWebSocket {
 	
 	private static String canvasTypeObject;
 	
-	private static Set<String> objectsContainer = new HashSet<String>();// contain all objects that has received yet
+	private static StringBuilder objects = new StringBuilder();// contain all objects have been gained yet
 	
 	@OnOpen
 	public void onOpen(Session session) throws Exception {
@@ -40,9 +40,7 @@ public class MainWebSocket {
 				session.getBasicRemote().sendText(canvasTypeObject);
 			}
 			// send all objects
-			for (String string : objectsContainer) {
-				session.getBasicRemote().sendText(string);
-			}
+			session.getBasicRemote().sendText(objects.toString());
 		} catch (IOException e) {
 			System.out.println("ERROR:"+e.getMessage());
 		}
@@ -66,7 +64,8 @@ public class MainWebSocket {
 			if(!stringifiedObject.isBlank()) {
 				JSONObject object = new JSONObject(stringifiedObject);
 				// add current Object to objectsContainer set
-				objectsContainer.add(stringifiedObject);
+				objects.append(stringifiedObject);
+				objects.append(",");
 				// get object type
 				String type = (String) object.get("type");
 				// if type = canvas save it as canvas object
@@ -75,7 +74,7 @@ public class MainWebSocket {
 				}
 				// if type = clear clear the set of objects saved until now
 				if(type.equals(CLEAR_TYPE)) {
-					objectsContainer.clear();
+					objects = new StringBuilder();
 				}
 			}
 		}
