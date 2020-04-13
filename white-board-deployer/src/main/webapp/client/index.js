@@ -13,7 +13,7 @@ function init(){
 setInterval(function(){
 	currentTime += 100;
 	for(var i=currentIndex; i<points.length;i++){
-		if(points[i].currentTime <= currentTime){
+		if(points[i].time <= currentTime){
 			eventsHandler(points[i])
 			currentIndex = i;
 		}else{

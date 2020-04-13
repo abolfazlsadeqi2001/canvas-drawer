@@ -103,7 +103,7 @@ function init(){
 }
 // ==> push method
 function push(obj){
-	obj.currentTime = currentTime;
+	obj.time = currentTime;
 	points.push(JSON.stringify(obj));
 }
 // ==> handle canvas events
