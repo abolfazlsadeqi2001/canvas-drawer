@@ -12,11 +12,10 @@ import javax.websocket.server.ServerEndpoint;
 
 
 @ServerEndpoint("/client")
-public class ClientWebSocket {
+public class ClientWebSocket extends WebSocketParent {
 	
 	public static Set<Session> sessions = new HashSet<Session>();
-	public static final int MAX_TEXT_MESSAGE_SIZE = 40 * 1024;// max gained text message is 35 kB
-	public static final int TIME_OUT_PER_MILI_SECONDS = 10 * 1000;// sync time is 5	
+
 	@OnOpen
 	public void onOpen(Session session) throws Exception {
 		// add session to sessions  set
@@ -26,20 +25,20 @@ public class ClientWebSocket {
 		session.setMaxIdleTimeout(TIME_OUT_PER_MILI_SECONDS);
 		try {
 			// send canvas size if exists
-			if(StreamerWebSocket.canvasObject != null) {
-				session.getBasicRemote().sendText(StreamerWebSocket.canvasObject);
+			if(StreamerWebSocket.getCanvasObject() != null) {
+				session.getBasicRemote().sendText(StreamerWebSocket.getCanvasObject());
 			}
 			// send all objects
-			session.getBasicRemote().sendText(StreamerWebSocket.objects.toString());
+			session.getBasicRemote().sendText(StreamerWebSocket.getPointsObjects());
 		} catch (IOException e) {
 			System.out.println("ERROR:"+e.getMessage());
 		}
 	}
 	
 	public static void broadcastMessage(String message) {
-		sessions.forEach(se ->{
+		sessions.forEach(s ->{
 			try {
-				se.getBasicRemote().sendText(message);
+				s.getBasicRemote().sendText(message);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

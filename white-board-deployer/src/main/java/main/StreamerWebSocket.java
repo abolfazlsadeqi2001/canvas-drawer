@@ -12,27 +12,37 @@ import javax.websocket.server.ServerEndpoint;
 import org.json.JSONObject;
 
 @ServerEndpoint("/streamer")
-public class StreamerWebSocket {
-
+public class StreamerWebSocket extends WebSocketParent {	
 	private static final String CANVAS_TYPE = "canvas";
 	private static final String CLEAR_TYPE = "clear";
 
-	public static String canvasObject;
+	private static String canvasObject;
+	private static StringBuilder objects = new StringBuilder();// contain all objects have been gained yet
 
-	public static StringBuilder objects = new StringBuilder();// contain all objects have been gained yet
-
+	private static boolean isStreamerConnected;
+	
+	public static String getCanvasObject() {
+		return canvasObject;
+	}
+	
+	public static String getPointsObjects () {
+		return objects.toString();
+	}
+	
 	@OnOpen
 	public void onOpen(Session session) {
-		if(canvasObject != null) {
+		if(isStreamerConnected) {
 			try {
 				session.close();
 			} catch (IOException e) {
 				System.out.println("ERROR:"+e.getMessage());
 			}
+		}else {
+			isStreamerConnected = true;
 		}
 		// configure session
-		session.setMaxTextMessageBufferSize(ClientWebSocket.MAX_TEXT_MESSAGE_SIZE);
-		session.setMaxIdleTimeout(ClientWebSocket.TIME_OUT_PER_MILI_SECONDS);
+		session.setMaxTextMessageBufferSize(MAX_TEXT_MESSAGE_SIZE);
+		session.setMaxIdleTimeout(TIME_OUT_PER_MILI_SECONDS);
 	}
 
 	@OnMessage
@@ -75,7 +85,8 @@ public class StreamerWebSocket {
 	@OnClose
 	public void onClose(Session session) {
 		canvasObject = null;
-		ClientWebSocket.closeAllClients();
+		isStreamerConnected = false;
 		objects = new StringBuilder();
+		ClientWebSocket.closeAllClients();
 	}
 }
