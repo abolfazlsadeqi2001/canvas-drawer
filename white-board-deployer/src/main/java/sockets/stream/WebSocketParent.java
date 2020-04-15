@@ -1,4 +1,4 @@
-package main;
+package sockets.stream;
 
 public class WebSocketParent {
 	protected static final int MAX_TEXT_MESSAGE_SIZE = 40 * 1024;// max gained text message is 35 kB

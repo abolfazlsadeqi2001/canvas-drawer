@@ -1,4 +1,4 @@
-package main;
+package sockets.stream;
 
 import java.io.IOException;
 
