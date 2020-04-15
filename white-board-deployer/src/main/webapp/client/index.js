@@ -1,4 +1,4 @@
-var ws = new WebSocket("wss://localhost:8443/white-board-deployer/client");
+var ws = new WebSocket(url);
 var streamTime = undefined;
 var currentTime = 0;
 var points = [];
@@ -61,7 +61,6 @@ function eventsHandler(obj){
 function handleCanvas(obj){
 	canvas.width = obj.dimensions.width;
 	canvas.height = obj.dimensions.height;
-	handleClear();
 }
 // handle clear event to clear the canvas
 function handleClear(){
